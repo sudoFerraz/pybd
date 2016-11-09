@@ -10,6 +10,19 @@ class Page():
         self.regindex = []
         self.nextpage = 0
 
+    def addreg(self, reg):
+        if len(self.regindex) > size:
+            self.regindex.append(reg)
+            self.nreg = self.nreg + 1
+        else:
+            newpage = Page()
+            self.nextpage = newpage
+            newpage.uid = str(uuid.uuid4().hex)
+            newpage.size = self.size
+            newpage.nreg = 1
+            newpage.regindex.append(reg)
+
+
 
 class Data():
     """Data that will be stored inside entries."""
@@ -38,4 +51,10 @@ class Reg():
     def addfield(self, attr, data):
         datanew = Data()
         datanew.data = data
-        self.index[attr] = data
+        datanew.flag = 1
+        self.index[attr] = datanew
+        return self.index
+
+    def delfield(self, attr):
+        del self.index[attr]
+        return self.index
