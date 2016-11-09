@@ -1,27 +1,39 @@
 import uuid
 
+
 class Page():
     """Pages that will be stored."""
 
-    def __init__(self, size):
+    def __init__(self, size, directory):
         self.uid = str(uuid.uuid4().hex)
         self.size = size
         self.nreg = 0
         self.regindex = []
         self.nextpage = 0
+        self.directory = directory
 
     def addreg(self, reg):
-        if len(self.regindex) > size:
+        if len(self.regindex) <= size:
             self.regindex.append(reg)
             self.nreg = self.nreg + 1
+            self.directory.ridindex[reg.uid] = self.uid
         else:
             newpage = Page()
             self.nextpage = newpage
-            newpage.uid = str(uuid.uuid4().hex)
             newpage.size = self.size
             newpage.nreg = 1
             newpage.regindex.append(reg)
+            self.directory.pagesindex.append(newpage)
+            self.directory.ridindex[reg.uid] = newpage.uid
 
+    def delreg(self, reg):
+        if self.nreg == 1 and len(self.regindex) == 1:
+            del self.directory.ridindex[reg.uid]
+            del self
+        else:
+            del self.regindex[reg.uid]
+            self.nreg = self.nreg - 1
+            del self.directory.ridindex[reg.uid]
 
 
 class Data():
@@ -40,13 +52,22 @@ class Directory():
         self.pagesindex = []
         self.ridindex = {}
 
+class Rid():
+    """Relations present in the database."""
+
+    def __init__(self, name):
+        self.uid = str(uuid.uuid4().hex)
+        self.regindex = []
+        self.name = name
+
+
 class Reg():
     """Entries of the system."""
 
     def __init__(self, relation):
         self.index = {}
         self.uid = str(uuid.uuid4().hex)
-        self.name = relation
+        self.rid = relation
 
     def addfield(self, attr, data):
         datanew = Data()
