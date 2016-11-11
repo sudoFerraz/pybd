@@ -49,7 +49,7 @@ class Directory():
 
     def __init__(self):
         self.hash = str(uuid.uuid4().hex)
-        self.pagesindex = []
+        self.list = []
         self.ridindex = {}
         self.ridlist = []
 

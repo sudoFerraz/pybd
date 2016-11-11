@@ -26,7 +26,7 @@ def delrelation(rid, directory):
     """Delete a relation present on the system."""
     del rid.directory.ridlist[rid.uid]
     for key, value in directory.ridindex.iteritems():
-        if directory.ridindex[key] == rid.uid:
+        if key == rid.uid:
             for i, reg in enumerate(directory.ridindex[key].regindex):
                 if reg.rid.uid == rid.uid:
                     del directory.ridindex[key].regindex[i]
@@ -34,16 +34,25 @@ def delrelation(rid, directory):
 
 
 
-def delreg():
+def delreg(reg):
     """Delete a tuple of a relation."""
-    
+    page = reg.rid.directory.ridindex[reg.rid.uid]
+    page.delreg(reg)
+    for i, reg in enumerate(reg.rid.regindex):
+        if reg.rid.regindex[i] == reg.uid:
+            del reg.rid.regindex[i]
+
+def searchrelation(uid, directory):
+    """Search for a relation and return its page."""
+    for key, page in directory.ridindex.iteritems():
+        if directory.ridindex[key] == uid:
+            return page
+
+def searchreg(tuple):
+    """Search for a tuple and return its page."""
+    for key, page in tuple.rid.directory.ridindex.iteritems():
+        if key == tuple.rid.uid:
+            return page
 
 
-def searchrelation():
-    """Search for a given relation present in the system."""
 
-def searchreg():
-    """Search for a tuple of a relation present in the system."""
-
-def returnpage():
-    """Return a page that cointains certain rid."""
