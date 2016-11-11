@@ -1,41 +1,33 @@
 #/usr/env/python2.7
+import time
+import structures
+import middleware
+import subpolitics
 
 class bufferpool():
     """Armazenamento de paginas na memoria."""
 
-    def __init__(self):
-        """Definindo estrutura do bufferpool."""
-        pass
+    def __init__(self, size):
+        """Buffer pool structure."""
+        self.frameindex = []
+        self.size = size
+
+    def pageregretrieve(self, tuple):
+        """Create a new frame from a page by its reg."""
+        newpage = middleware.searchreg(tuple)
+        newframe = Frame(newpage)
+        if len(self.frameindex) == self.size:
+            subpolitics.refresh(self, newframe)
+        else:
+            self.frameindex.append(newframe)
 
 
-    def buscapagina(self):
-        """Busca pagina pelo gerenciador de arquivos."""
-        pass
+class Frame():
 
+    def __init__(self, page):
+        """Defining frame structure."""
+        self.dirtybit = 0
+        self.page = page
+        self.lastused = int(time.time())
+        self.active = 0
 
-    def controle_concorrencia(self):
-        """Chama subsistema responsavel pelo controle de concorrencia."""
-        pass
-
-
-    def substitui_frame(self, frame):
-        """Define politica de substituicao de frames e aloca novo."""
-        pass
-
-    
-
-class frame():
-
-    def __init__():
-        """Definindo estrutura de cada frame."""
-        pass
-
-
-    def torna_ativo():
-        """Chamada para definir se o frame esta sendo utilizado."""
-        pass
-
-
-    def modificado():
-        """Chamada para dizer que o frame foi modificado."""
-        pass
