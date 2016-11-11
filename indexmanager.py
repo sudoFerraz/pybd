@@ -3,10 +3,19 @@ import middleware
 import bufferpool
 import subpolitics
 
-def crescentindex():
+class Bptree():
+    """Tree used for indexing."""
+    
+    def __init__(self):
+        self.root = None
+
+    def refresh(self, index):
+        """Reorganize a given index to a tree."""
+
+def crescentindex(index):
     """Put the objects inside of an index in a crescent order."""
 
-def btreeindex():
+def btreeindex(index):
     """Organize the index in form of a b+ tree."""
 
 def searchtree():

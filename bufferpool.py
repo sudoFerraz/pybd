@@ -3,6 +3,7 @@ import time
 import structures
 import middleware
 import subpolitics
+import indexmanager
 
 class bufferpool():
     """Armazenamento de paginas na memoria."""
@@ -11,6 +12,7 @@ class bufferpool():
         """Buffer pool structure."""
         self.frameindex = []
         self.size = size
+        self.tree = indexmanager.Bptree()
 
     def pageregretrieve(self, tuple):
         """Create a new frame from a page by its reg."""
@@ -20,7 +22,7 @@ class bufferpool():
             subpolitics.refresh(self, newframe)
         else:
             self.frameindex.append(newframe)
-
+        self.tree.refresh(self.frameindex)
 
 class Frame():
 
@@ -30,4 +32,5 @@ class Frame():
         self.page = page
         self.lastused = int(time.time())
         self.active = 0
+        self.tree = indexmanager.Bptree(page.regindex)
 
