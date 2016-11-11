@@ -54,5 +54,9 @@ def searchreg(tuple):
         if key == tuple.rid.uid:
             return page
 
-
+def searchpage(pageuid, directory):
+    """Search for a given page uid."""
+    for i, page in enumerate(directory.pagelist):
+        if directory.pagelist[i] == pageuid:
+            return page
 
